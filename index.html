@@ -4,9 +4,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Todo List</title>
+    <link rel="stylesheet" href="/Todolist/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jaldi&display=swap" rel="stylesheet"> 
 </head>
 <body>
-    
+    <div class="header">
+        <h2>Todo List</h2>
+    </div>
+    <div class="body">
+        <div class="bodyInput">
+            <input id="todoInput" type="text">
+            <button id="btnPlus"> + </button>                        
+        </div>
+        <div class="bodyFilter">
+            <p>Filter :</p>
+            <select id="filter">
+                <option value="all">all</option>
+                <option value="completed">completed</option>
+                <option value="uncompleted">unCompleted</option>
+            </select>
+        </div> 
+    </div>
+    <div id="main_Todo">
+        <ul id="ulTag">
+            
+        </ul>
+    </div>     
+
+    <script src="/Todolist/main.js"></script>
 </body>
+<footer>
+
+</footer>
 </html>

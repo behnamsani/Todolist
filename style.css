@@ -1,0 +1,81 @@
+@font-face {
+    font-family: 'IRANSans' ;
+    src: url('../font/IRANSans.ttf');
+}
+@font-face {
+    font-family: 'IRANSans_B' ;
+    src: url('../font/IRANSans_Bold.ttf');
+}
+@font-face {
+    font-family: 'IRANSans_M' ;
+    src: url('../font/IRANSans_Medium.ttf');
+}
+@font-face {
+    font-family: 'IRANSans_L' ;
+    src: url('../font/IRANSans_Light.ttf');
+}
+@font-face {
+    font-family: 'IRANSans_UL' ;
+    src: url('../font/IRANSans_UltraLight.ttf');
+}
+body{
+    background-image: linear-gradient(to right , #eee , #AAA) ;
+}
+.header{
+    display: flex; justify-content: center;
+}
+.header h2 {
+    font-size: 40pt;font-family: Merienda;text-shadow: 3px 3px 2px rgb(243, 243, 243) ;
+}
+.body{
+    display: flex;justify-content: center;height: 40px;
+}
+.bodyInput{
+    margin: 0 20px;
+}
+.bodyFilter{
+    display: flex;height:40px;
+}
+.bodyFilter p{
+    margin: 3px  10px;font-family: Jaldi;font-size: 15pt;font-weight: bold;
+}
+#todoInput{
+    outline: none;font-size: 15pt;border-radius: 8px;
+     font-family: IRANSans;direction: rtl;padding-right: 10px;color: grey;
+}
+#btnPlus{
+    position: relative;top: -1pt;right: 281px;width: 41px;height: 40px;
+    border-radius: 8px;background-image: linear-gradient(to right ,#fff ,#bbb);
+    
+}
+#filter{
+    border-radius: 8px;
+    background: #000;
+    color: #fff;
+    outline: none;
+    font-family: 'Jaldi';
+    font-size: 15px;
+}
+.todoItem{
+    display: flex; margin: 7px 0;justify-content: flex-end;
+}
+.btn_Click{
+    width: 35px;height: 35px;margin: 0 5px;
+}
+.txt_Todo{
+    font-family: IRANSans; font-size: 20px;margin: 0 5px;direction: rtl;
+    background: #fff;
+    border-radius: 8px;
+    padding: 0 15px;
+}
+#main_Todo{
+    display: flex;
+    width: 600px;
+    justify-content: flex-end;
+    margin: auto;
+}
+.numTodo{
+    font-family: 'Merienda';
+    font-size: 20px;
+    padding-top: 5px;
+}
