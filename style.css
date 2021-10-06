@@ -85,3 +85,7 @@ body{
 .message{
     font-family: IRANSans_L;font-size: 15px;
 }
+.successMessage{
+    font-family: IRANSans_L;font-size: 18px;color: #fff;
+    text-shadow: 2px 2px 3px #000;
+}

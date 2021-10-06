@@ -1,25 +1,28 @@
+let flag=false;
 let numLi=0;
 let liarr=[];
 const todoInput = document.getElementById("todoInput");
 const ulTag = document.getElementById("ulTag");
 const amountUlTagFirst=ulTag.innerHTML;
 const btnPlus=document.getElementById("btnPlus");
+const filter = document.getElementById("filter");
 
 document.addEventListener("DOMContentLoaded",function(){
     todoInput.value="";
     todoInput.focus();
     if(ulTag.innerHTML===amountUlTagFirst){
         const H3=document.createElement("h3");
-        H3.innerHTML="لیست کار های شما خالی است";
+        H3.innerHTML="لیست اهداف شما خالی است";
         H3.classList.add("message");
-        ulTag.appendChild(H3);
-        console.log(ulTag.children[0].classList[0]);
+        ulTag.appendChild(H3);  
     }
 })
 btnPlus.addEventListener("click", creatTodoList);
 todoInput.addEventListener("keyup", creatTodoList1);
 ulTag.addEventListener("click", removeTodoList);
 ulTag.addEventListener("click", checkCompletUncomplet);
+filter.addEventListener("click",filterChoose);
+
 
 
 
@@ -103,6 +106,9 @@ function removeTodoList(event){
         if(tage.classList[1]=="btn_delete"){
         tage.parentElement.remove();
         liarr=document.querySelectorAll(".todoItem");
+        if(liarr.length==0){
+                ulTag.innerHTML=amountUlTagFirst;
+        }
         for(let i=0;i<liarr.length;i++){
             const numTodo= document.querySelectorAll(".numTodo");
             const li= document.querySelectorAll(".todoItem");
@@ -112,13 +118,15 @@ function removeTodoList(event){
         todoInput.focus();
         if(ulTag.innerHTML===amountUlTagFirst){
             const H3=document.createElement("h3");
-            H3.innerHTML="لیست کارهای شما خالی است"
+            H3.innerHTML="لیست اهداف شما خالی است"
             H3.classList.add("message");
             ulTag.appendChild(H3);
         }
     }
 }
 function checkCompletUncomplet(event){
+    let numCompletedLi=0;
+    let numUncompletedLi=0;
     const tag = event.target;
        if(tag.classList[1]==="btn_check"){
             const li= tag.parentElement;
@@ -126,9 +134,53 @@ function checkCompletUncomplet(event){
             if(li.classList[1]==="complet"){
                 tag.src="/Todolist/img/complet.svg";
             }else tag.src="/Todolist/img/check.svg";
-               
+            const allLi=document.querySelectorAll("li");
+            for(let i=0;i<allLi.length;i++){
+                if(allLi[i].classList[1]==="complet"){
+                   numCompletedLi=1+numCompletedLi
+                }
+                if(allLi[i].classList[1]!="complet"){
+                    numUncompletedLi=1+numUncompletedLi
+                 }
+            }
+            
+            
+            if(allLi.length==numCompletedLi){
+                const H3=document.createElement("h3");
+                H3.innerHTML="خدا قوت پهلوان به تمام اهداف خود رسیدید";
+                H3.classList.add("successMessage");
+                ulTag.appendChild(H3);  
+                flag=true;  
+            }
+            if(flag && numUncompletedLi>0){
+                const H3 = document.querySelector(".successMessage");
+                H3.remove();
+                flag=false;
+            }   
         }
         todoInput.focus();
     
+}
+function filterChoose(event){
+    const allLi=document.querySelectorAll(".todoItem");
+    allLi.forEach(function(todo){
+        if(event.target.value=="all"){
+            todo.style.display="flex"
+        }
+        if(event.target.value=="completed"){
+            if(todo.classList[1]=="complet"){
+                todo.style.display="flex";
+            }else todo.style.display="none";
+
+        }
+        if(event.target.value=="uncompleted"){
+            if(todo.classList[1]=="complet"){
+                todo.style.display="none";
+            }else todo.style.display="flex";
+
+        }
+    })
+    
+        
 }
 
