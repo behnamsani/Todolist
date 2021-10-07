@@ -7,15 +7,67 @@ const amountUlTagFirst=ulTag.innerHTML;
 const btnPlus=document.getElementById("btnPlus");
 const filter = document.getElementById("filter");
 
+
+
+
+
 document.addEventListener("DOMContentLoaded",function(){
     todoInput.value="";
     todoInput.focus();
+    let todos;
+    if(localStorage.getItem("todos")===null){
+        todos=[];
+    }else todos=JSON.parse(localStorage.getItem("todos"));
+    todos.forEach(function(item){
+        const li = document.createElement("li");
+        li.classList.add("todoItem");
+        const p = document.createElement("p");
+        p.innerHTML=item;
+        p.classList.add("txt_Todo");
+        const img_check = document.createElement("img");
+        img_check.src="/Todolist/img/check.svg";
+        img_check.classList.add("btn_Click");
+        img_check.classList.add("btn_check");
+        const img_delete = document.createElement("img");
+        img_delete.src="/Todolist/img/delete.svg";
+        img_delete.classList.add("btn_Click");
+        img_delete.classList.add("btn_delete");
+        li.appendChild(p);
+        li.appendChild(img_check);
+        li.appendChild(img_delete);
+        ulTag.appendChild(li);
+        const numtodo = document.createElement("span");
+        numtodo.classList.add("numTodo");
+        li.appendChild(numtodo);
+        liarr=document.querySelectorAll(".todoItem");
+        for(let i=0;i<liarr.length;i++){
+            const numTodo= document.querySelectorAll(".numTodo");
+            const li= document.querySelectorAll(".todoItem");
+            numTodo[i].innerHTML=`- ${i+1}`;
+            li[i].id=`${i}`;
+        }
+
+    })
+    liarr=document.querySelectorAll(".todoItem");
+    let completed;
+    if(localStorage.getItem("completed")===null){
+        completed=[];
+    }else completed=JSON.parse(localStorage.getItem("completed"));
+    liarr.forEach(function(item){
+        for(let i=0;i<completed.length;i++){
+            if(item.children[0].innerHTML===completed[i]){
+                item.classList.add("complet");
+                item.children[1].src="/Todolist/img/complet.svg";
+            }
+        }
+    })
     if(ulTag.innerHTML===amountUlTagFirst){
         const H3=document.createElement("h3");
         H3.innerHTML="لیست اهداف شما خالی است";
         H3.classList.add("message");
         ulTag.appendChild(H3);  
     }
+    
 })
 btnPlus.addEventListener("click", creatTodoList);
 todoInput.addEventListener("keyup", creatTodoList1);
@@ -52,6 +104,7 @@ function creatTodoList(){
     numtodo.classList.add("numTodo");
     li.appendChild(numtodo);
     liarr=document.querySelectorAll(".todoItem");
+    saveLocal(todoInput.value);
     for(let i=0;i<liarr.length;i++){
         const numTodo= document.querySelectorAll(".numTodo");
         const li= document.querySelectorAll(".todoItem");
@@ -89,6 +142,7 @@ function creatTodoList1(e){
         numtodo.classList.add("numTodo");
         li.appendChild(numtodo);
         liarr=document.querySelectorAll(".todoItem");
+        saveLocal(todoInput.value);
         for(let i=0;i<liarr.length;i++){
             const numTodo= document.querySelectorAll(".numTodo");
             const li= document.querySelectorAll(".todoItem");
@@ -98,30 +152,32 @@ function creatTodoList1(e){
         todoInput.value="";
         todoInput.focus();
     }
+    
 
 }
-
 function removeTodoList(event){
     const tage =event.target;
         if(tage.classList[1]=="btn_delete"){
-        tage.parentElement.remove();
-        liarr=document.querySelectorAll(".todoItem");
-        if(liarr.length==0){
-                ulTag.innerHTML=amountUlTagFirst;
-        }
-        for(let i=0;i<liarr.length;i++){
-            const numTodo= document.querySelectorAll(".numTodo");
-            const li= document.querySelectorAll(".todoItem");
-            numTodo[i].innerHTML=`- ${i+1}`;
-            li[i].id=`${i}`;
-        }
-        todoInput.focus();
-        if(ulTag.innerHTML===amountUlTagFirst){
-            const H3=document.createElement("h3");
-            H3.innerHTML="لیست اهداف شما خالی است"
-            H3.classList.add("message");
-            ulTag.appendChild(H3);
-        }
+            deleteLocal(tage);
+            tage.parentElement.remove();
+            liarr=document.querySelectorAll(".todoItem");
+            if(liarr.length==0){
+                    ulTag.innerHTML=amountUlTagFirst;
+            }
+            for(let i=0;i<liarr.length;i++){
+                const numTodo= document.querySelectorAll(".numTodo");
+                const li= document.querySelectorAll(".todoItem");
+                numTodo[i].innerHTML=`- ${i+1}`;
+                li[i].id=`${i}`;
+            }
+            todoInput.focus();
+            if(ulTag.innerHTML===amountUlTagFirst){
+                const H3=document.createElement("h3");
+                H3.innerHTML="لیست اهداف شما خالی است"
+                H3.classList.add("message");
+                ulTag.appendChild(H3);
+            }
+            removeCompletedLocal(tage);
     }
 }
 function checkCompletUncomplet(event){
@@ -133,7 +189,12 @@ function checkCompletUncomplet(event){
             li.classList.toggle("complet");
             if(li.classList[1]==="complet"){
                 tag.src="/Todolist/img/complet.svg";
-            }else tag.src="/Todolist/img/check.svg";
+                saveCompletedLocal(tag);
+            }else {
+                tag.src="/Todolist/img/check.svg";
+                removeCompletedLocal(tag);
+                console.log("here");
+            }
             const allLi=document.querySelectorAll("li");
             for(let i=0;i<allLi.length;i++){
                 if(allLi[i].classList[1]==="complet"){
@@ -142,9 +203,7 @@ function checkCompletUncomplet(event){
                 if(allLi[i].classList[1]!="complet"){
                     numUncompletedLi=1+numUncompletedLi
                  }
-            }
-            
-            
+            } 
             if(allLi.length==numCompletedLi){
                 const H3=document.createElement("h3");
                 H3.innerHTML="خدا قوت پهلوان به تمام اهداف خود رسیدید";
@@ -156,7 +215,8 @@ function checkCompletUncomplet(event){
                 const H3 = document.querySelector(".successMessage");
                 H3.remove();
                 flag=false;
-            }   
+            }
+               
         }
         todoInput.focus();
     
@@ -179,8 +239,47 @@ function filterChoose(event){
             }else todo.style.display="flex";
 
         }
-    })
-    
-        
+    })   
 }
-
+function saveLocal(input){
+    let todos;
+    if(localStorage.getItem("todos")===null){
+        todos=[];
+    }else todos=JSON.parse(localStorage.getItem("todos"));
+    todos.push(input);
+    localStorage.setItem("todos",JSON.stringify(todos));
+}
+function saveCompletedLocal(tag){
+    let completed;
+    if(localStorage.getItem("completed")===null){
+        completed=[];
+    }else completed=JSON.parse(localStorage.getItem("completed"));
+    const li= tag.parentElement;
+    completed.push(li.children[0].innerHTML);
+    localStorage.setItem("completed",JSON.stringify(completed));
+}
+function deleteLocal(tag){
+    let todos;
+    if(localStorage.getItem("todos")===null){
+        todos=[];
+    }else todos=JSON.parse(localStorage.getItem("todos"));
+    const li= tag.parentElement;
+    const txtTarget=li.children[0].innerHTML;
+    todos.splice(todos.indexOf(txtTarget),1);
+    localStorage.setItem("todos",JSON.stringify(todos));
+}
+function removeCompletedLocal(tag){
+    let completed;
+    if(localStorage.getItem("completed")===null){
+        completed=[];
+    }else completed=JSON.parse(localStorage.getItem("completed"));
+    const li= tag.parentElement;
+    completed.forEach(function(item){
+        console.log(item);
+        console.log(li.children[0].innerHTML);
+        if(li.children[0].innerHTML===item){
+            completed.splice(completed.indexOf(li.children[0].innerHTML),1);
+        }
+    })
+    localStorage.setItem("completed",JSON.stringify(completed));
+}

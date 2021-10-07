@@ -31,7 +31,7 @@ body{
     display: flex;justify-content: center;height: 40px;
 }
 .bodyInput{
-    margin: 0 20px;
+    margin: 0 -27px;
 }
 .bodyFilter{
     display: flex;height:40px;
@@ -70,9 +70,9 @@ body{
 }
 #main_Todo{
     display: flex;
-    width: 600px;
+    width: 690px;
     justify-content: flex-end;
-    margin: auto;
+    margin: 0 auto;
 }
 .numTodo{
     font-family: 'Merienda';
@@ -80,7 +80,7 @@ body{
     padding-top: 5px;
 }
 .complet{
-    opacity: 0.5;
+    opacity: 0.3;
 }
 .message{
     font-family: IRANSans_L;font-size: 15px;
@@ -88,4 +88,16 @@ body{
 .successMessage{
     font-family: IRANSans_L;font-size: 18px;color: #fff;
     text-shadow: 2px 2px 3px #000;
+}
+.txtDate{
+    display: block;direction: rtl;font-family: IRANSans_L;font-size: 17px;margin: 10px 10px;
+}
+.Date{
+    margin: 0 10px;
+}
+.dateFilter{
+    display: flex;
+    height: 75px;
+    width: auto;
+    margin: -33px 10px;
 }
